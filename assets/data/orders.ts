@@ -1,6 +1,7 @@
-import { Order } from '../../src/types';
-import products from './products';
 import dayjs from 'dayjs';
+
+import products from './products';
+import { Order } from '../../src/types';
 
 const now = dayjs();
 
