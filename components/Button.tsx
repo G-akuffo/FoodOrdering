@@ -1,24 +1,33 @@
 import { forwardRef } from 'react';
-import { Text, TouchableOpacity, TouchableOpacityProps } from 'react-native';
+import { Pressable, StyleSheet, Text, View } from 'react-native';
+
+import Colors from '~/constants/Colors';
 
 type ButtonProps = {
-  title: string;
-} & TouchableOpacityProps;
+  text: string;
+} & React.ComponentPropsWithoutRef<typeof Pressable>;
 
-export const Button = forwardRef<TouchableOpacity, ButtonProps>(
-  ({ title, ...touchableProps }, ref) => {
-    return (
-      <TouchableOpacity
-        ref={ref}
-        {...touchableProps}
-        className={`${styles.button} ${touchableProps.className}`}>
-        <Text className={styles.buttonText}>{title}</Text>
-      </TouchableOpacity>
-    );
-  }
-);
+const Button = forwardRef<View | null, ButtonProps>(({ text, ...pressableProps }, ref) => {
+  return (
+    <Pressable ref={ref} {...pressableProps} style={styles.container}>
+      <Text style={styles.text}>{text}</Text>
+    </Pressable>
+  );
+});
 
-const styles = {
-  button: 'items-center bg-indigo-500 rounded-[28px] shadow-md p-4',
-  buttonText: 'text-white text-lg font-semibold text-center',
-};
+const styles = StyleSheet.create({
+  container: {
+    backgroundColor: Colors.light.tint,
+    padding: 15,
+    alignItems: 'center',
+    borderRadius: 100,
+    marginVertical: 10,
+  },
+  text: {
+    fontSize: 16,
+    fontWeight: '600',
+    color: 'white',
+  },
+});
+
+export default Button;

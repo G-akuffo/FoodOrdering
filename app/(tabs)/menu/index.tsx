@@ -14,6 +14,7 @@ export default function MenuScreen() {
         numColumns={2}
         contentContainerStyle={{ gap: 10 }}
         columnWrapperStyle={{ gap: 10 }}
+        showsVerticalScrollIndicator={false}
       />
     </>
   );
