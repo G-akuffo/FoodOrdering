@@ -3,11 +3,13 @@ import { Link, Tabs } from 'expo-router';
 import { HeaderButton } from '../../components/HeaderButton';
 import { TabBarIcon } from '../../components/TabBarIcon';
 
+import Colors from '~/constants/Colors';
+
 export default function TabLayout() {
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: 'black',
+        tabBarActiveTintColor: Colors.light.tint,
       }}>
       <Tabs.Screen name="index" options={{ href: null }} />
 
@@ -16,7 +18,7 @@ export default function TabLayout() {
         options={{
           title: 'Menu',
           headerShown: false,
-          tabBarIcon: ({ color }) => <TabBarIcon name="cutlery" color={color} size={20} />,
+          tabBarIcon: ({ color }) => <TabBarIcon name="cutlery" color={color} />,
           headerRight: () => (
             <Link href="/modal" asChild>
               <HeaderButton />
@@ -28,7 +30,7 @@ export default function TabLayout() {
         name="two"
         options={{
           title: 'Orders',
-          tabBarIcon: ({ color }) => <TabBarIcon name="list" color={color} size={20} />,
+          tabBarIcon: ({ color }) => <TabBarIcon name="list" color={color} />,
         }}
       />
     </Tabs>

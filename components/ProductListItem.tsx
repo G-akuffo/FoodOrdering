@@ -1,7 +1,9 @@
+/* eslint-disable prettier/prettier */
 import { Link } from 'expo-router';
 import React from 'react';
-import { Pressable, Text, Image } from 'react-native';
+import { Pressable, Text, Image, StyleSheet } from 'react-native';
 
+import Colors from '~/constants/Colors';
 import { Product } from '~/src/types';
 
 export const defaultPizzaImage =
@@ -21,10 +23,17 @@ const ProductListItem = ({ product }: ProductListItemProps) => {
           resizeMode="contain"
         />
         <Text className="text-xl font-bold">{product.name}</Text>
-        <Text className="text-blue-700">${product.price}</Text>
+        <Text style={styles.price}>${product.price}</Text>
       </Pressable>
     </Link>
   );
 };
+
+const styles = StyleSheet.create({
+  price: {
+    color: Colors.light.tint,
+    fontWeight: 'bold',
+  },
+});
 
 export default ProductListItem;
