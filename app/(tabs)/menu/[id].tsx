@@ -1,5 +1,4 @@
-/* eslint-disable prettier/prettier */
-import { Stack, useLocalSearchParams } from 'expo-router';
+import { router, Stack, useLocalSearchParams } from 'expo-router';
 import { useState } from 'react';
 import { Image, Text, View, StyleSheet, Pressable } from 'react-native';
 
@@ -20,11 +19,15 @@ const ProductDetailsScreen = () => {
   const product = products.find((p) => p.id.toString() === id);
 
   const addToCart = () => {
-    console.warn('Added to cart: ', selectedSize);
+    if (!product) {
+      return;
+    }
+    addItem(product, selectedSize);
+    router.push('/cart');
   };
 
   if (!product) {
-    return <Text>Product Not Found</Text>;
+    return <Text>Product not found</Text>;
   }
 
   return (
