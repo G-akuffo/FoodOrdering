@@ -1,30 +1,15 @@
-import { router, Stack, useLocalSearchParams } from 'expo-router';
-import { useState } from 'react';
-import { Image, Text, View, StyleSheet, Pressable } from 'react-native';
+import { FontAwesome } from '@expo/vector-icons';
+import { Link, Stack, useLocalSearchParams } from 'expo-router';
+import { Image, Pressable, Text, View } from 'react-native';
 
 import products from '~/assets/data/products';
-import Button from '~/components/Button';
 import { defaultPizzaImage } from '~/components/ProductListItem';
-import { useCart } from '~/src/providers/CartProvider';
-import { PizzaSize } from '~/src/types';
-
-const sizes: PizzaSize[] = ['S', 'M', 'L', 'XL'];
+import Colors from '~/constants/Colors';
 
 const ProductDetailsScreen = () => {
   const { id } = useLocalSearchParams();
-  const { addItem } = useCart();
-
-  const [selectedSize, setSelectedSize] = useState<PizzaSize>('M');
 
   const product = products.find((p) => p.id.toString() === id);
-
-  const addToCart = () => {
-    if (!product) {
-      return;
-    }
-    addItem(product, selectedSize);
-    router.push('/cart');
-  };
 
   if (!product) {
     return <Text>Product not found</Text>;
@@ -32,6 +17,26 @@ const ProductDetailsScreen = () => {
 
   return (
     <View className="flex-1 bg-white p-5">
+      <Stack.Screen
+        options={{
+          title: 'Menu',
+          headerRight: () => (
+            <Link href={`/(admin)/menu/create?id=${id}`} asChild>
+              <Pressable>
+                {({ pressed }) => (
+                  <FontAwesome
+                    name="pencil"
+                    size={25}
+                    color={Colors.light.tint}
+                    style={{ marginRight: 15, opacity: pressed ? 0.5 : 1 }}
+                  />
+                )}
+              </Pressable>
+            </Link>
+          ),
+        }}
+      />
+
       <Stack.Screen options={{ title: product.name }} />
       <Image
         source={{ uri: product.image || defaultPizzaImage }}
@@ -44,24 +49,5 @@ const ProductDetailsScreen = () => {
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  size: {
-    width: 50,
-    aspectRatio: 1,
-    borderRadius: 25,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  sizes: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-  },
-  sizeText: {
-    fontSize: 20,
-    fontWeight: '500',
-    color: 'black',
-  },
-});
 
 export default ProductDetailsScreen;
