@@ -1,7 +1,7 @@
 import * as ImagePicker from 'expo-image-picker';
 import { Stack, useLocalSearchParams } from 'expo-router';
 import React, { useState } from 'react';
-import { View, Text, TextInput, Image } from 'react-native';
+import { View, Text, TextInput, Image, Alert } from 'react-native';
 
 import Button from '~/components/Button';
 import { defaultPizzaImage } from '~/components/ProductListItem';
@@ -82,6 +82,17 @@ const CreateProductScreen = () => {
     }
   };
 
+  const onDelete = () => {
+    console.warn('DELETE!!!!!');
+  };
+
+  const confirmDelete = () => {
+    Alert.alert('Confirm', 'Are you sure you want to delete this product?', [
+      { text: 'Cancel' },
+      { text: 'Delete', style: 'destructive', onPress: onDelete },
+    ]);
+  };
+
   return (
     <View className="flex-1 justify-center p-5">
       <Stack.Screen options={{ title: isUpdating ? 'Update Product' : 'Create Product' }} />
@@ -114,6 +125,11 @@ const CreateProductScreen = () => {
 
       <Text className="text-red-600">{errors}</Text>
       <Button onPress={onSubmit} text={isUpdating ? 'Update' : 'Create'} />
+      {isUpdating && (
+        <Text onPress={confirmDelete} className="self-center text-red-600">
+          Delete
+        </Text>
+      )}
     </View>
   );
 };
