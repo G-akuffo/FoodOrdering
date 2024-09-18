@@ -1,12 +1,22 @@
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { Stack, Link } from 'expo-router';
-import { FlatList, Pressable } from 'react-native';
+import { ActivityIndicator, FlatList, Pressable, Text } from 'react-native';
 
-import products from '~/assets/data/products';
 import ProductListItem from '~/components/ProductListItem';
 import Colors from '~/constants/Colors';
+import { useProductList } from '~/src/api/products';
 
 export default function MenuScreen() {
+  const { data: products, error, isLoading } = useProductList();
+
+  if (isLoading) {
+    return <ActivityIndicator />;
+  }
+
+  if (error) {
+    return <Text>Failed to fetch products</Text>;
+  }
+
   return (
     <>
       <Stack.Screen
@@ -30,7 +40,7 @@ export default function MenuScreen() {
         data={products}
         renderItem={({ item }) => <ProductListItem product={item} />}
         numColumns={2}
-        contentContainerStyle={{ gap: 10 }}
+        contentContainerStyle={{ gap: 10, padding: 10 }}
         columnWrapperStyle={{ gap: 10 }}
         showsVerticalScrollIndicator={false}
       />
